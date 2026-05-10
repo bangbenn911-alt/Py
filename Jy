@@ -1,0 +1,153 @@
+googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;1,700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Poppins', sans-serif; overflow-x: hidden; background-color: #fcfaf7; }
+        .font-wedding { font-family: 'Dancing Script', cursive; }
+        .font-elegant { font-family: 'Playfair Display', serif; }
+        section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
+        .overlay { background: rgba(0,0,0,0.4); width: 100%; height: 100%; position: absolute; }
+        .btn-gold { background: #c5a059; color: white; padding: 10px 25px; border-radius: 50px; transition: 0.3s; }
+        .btn-gold:hover { background: #a38241; transform: scale(1.05); }
+        #music-control { position: fixed; bottom: 20px; right: 20px; z-index: 1000; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <!-- Musik (Autoplay via Button Start) -->
+    <audio id="bgMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Tombol Kontrol Musik -->
+    <div id="music-control" class="bg-white p-3 rounded-full shadow-lg hidden" onclick="toggleMusic()">
+        🎵
+    </div>
+
+    <!-- Slide 1: Welcome (Buku Undangan) -->
+    <section id="slide1" class="relative text-white text-center bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80');">
+        <div class="overlay"></div>
+        <div class="z-10" data-aos="zoom-in">
+            <div class="mb-6 border-4 border-white inline-block p-2 rounded-full overflow-hidden w-48 h-48 mx-auto">
+                <img src="https://via.placeholder.com/200" alt="Foto Pasangan" class="w-full h-full object-cover">
+            </div>
+            <h1 class="font-wedding text-5xl mb-2">Romeo & Juliet</h1>
+            <p class="font-elegant text-xl italic mb-8">The Wedding of</p>
+            <button onclick="startInvitation()" class="btn-gold font-semibold animate-bounce">Buka Undangan</button>
+        </div>
+    </section>
+
+    <!-- Slide 2: Waktu & Tempat -->
+    <section id="slide2" class="bg-white">
+        <h2 class="font-wedding text-4xl text-amber-700 mb-6" data-aos="fade-up">Waktu & Tempat</h2>
+        <div class="max-w-4xl w-full grid md:grid-cols-2 gap-8 items-center">
+            <div data-aos="fade-right">
+                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80" class="rounded-lg shadow-xl" alt="Tempat Acara">
+            </div>
+            <div class="text-center md:text-left" data-aos="fade-left">
+                <h3 class="font-elegant text-2xl font-bold mb-2">Akad Nikah & Resepsi</h3>
+                <p class="text-gray-600 mb-4">Minggu, 20 Mei 2026<br>09.00 - Selesai</p>
+                <p class="font-bold text-amber-800 italic">Gedung Pernikahan Mewah<br>Jl. Kenangan No. 1, Jakarta</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Quote / Kata-kata -->
+    <section id="slide3" class="bg-slate-50 text-center italic">
+        <div class="max-w-2xl" data-aos="fade-up">
+            <img src="https://images.unsplash.com/photo-1465495910483-34a1d21d39c2?auto=format&fit=crop&q=80" class="w-32 h-32 rounded-full mx-auto mb-6 shadow-md" alt="Detail">
+            <p class="text-lg text-gray-700 leading-relaxed font-elegant">
+                "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya."
+            </p>
+        </div>
+    </section>
+
+    <!-- Slide 4: Konfirmasi Kehadiran (Link ke Google Sheet) -->
+    <section id="slide4" class="bg-white">
+        <div class="bg-amber-50 p-8 rounded-2xl shadow-lg w-full max-w-md" data-aos="flip-left">
+            <h2 class="font-wedding text-3xl text-center text-amber-700 mb-6">Konfirmasi Kehadiran</h2>
+            <form id="rsvpForm">
+                <input type="text" name="nama" placeholder="Nama Anda" class="w-full p-3 mb-4 rounded-lg border border-amber-200" required>
+                <select name="kehadiran" class="w-full p-3 mb-4 rounded-lg border border-amber-200">
+                    <option value="Hadir">Saya Akan Hadir</option>
+                    <option value="Tidak Hadir">Maaf, Tidak Bisa Hadir</option>
+                </select>
+                <textarea name="pesan" placeholder="Ucapan Doa" class="w-full p-3 mb-4 rounded-lg border border-amber-200"></textarea>
+                <button type="submit" class="w-full btn-gold">Kirim Konfirmasi</button>
+            </form>
+            <p id="statusMsg" class="mt-4 text-center text-green-600 hidden">Terima kasih! Data tersimpan.</p>
+        </div>
+    </section>
+
+    <!-- Slide 5: Kado Digital -->
+    <section id="slide5" class="bg-slate-900 text-white text-center">
+        <div data-aos="zoom-in-up">
+            <h2 class="font-wedding text-4xl mb-4">Memberi Hadiah</h2>
+            <p class="mb-6 opacity-80">Bagikan momen kebahagiaan Anda bersama kami</p>
+            <div class="border-2 border-dashed border-amber-500 p-10 rounded-xl">
+                <p class="mb-4">Upload Foto / Video Ucapan</p>
+                <input type="file" id="fileUpload" class="block w-full text-sm text-slate-500
+                file:mr-4 file:py-2 file:px-4
+                file:rounded-full file:border-0
+                file:text-sm file:font-semibold
+                file:bg-amber-50 file:text-amber-700
+                hover:file:bg-amber-100">
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Terima Kasih -->
+    <section id="slide6" class="relative bg-cover bg-center h-screen w-full" style="background-image: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80');">
+        <div class="overlay" style="background: rgba(255, 255, 255, 0.7);"></div>
+        <div class="z-10 text-center" data-aos="fade-up">
+            <h2 class="font-wedding text-6xl text-amber-800 mb-4">Terima Kasih</h2>
+            <p class="font-elegant text-xl italic">Atas kehadiran dan doa restu Anda</p>
+            <div class="mt-10 flex space-x-4 justify-center">
+                <span class="text-3xl">🌸</span>
+                <span class="text-3xl">🕊️</span>
+                <span class="text-3xl">🌸</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- JS Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Inisialisasi Efek Transisi
+        AOS.init({ duration: 1000, once: false });
+
+        const audio = document.getElementById('bgMusic');
+        const scriptURL = 'MASUKKAN_URL_GOOGLE_APPS_SCRIPT_DI_SINI';
+
+        function startInvitation() {
+            // Scroll ke slide 2
+            document.getElementById('slide2').scrollIntoView({ behavior: 'smooth' });
+            // Putar Musik
+            audio.play();
+            document.getElementById('music-control').classList.remove('hidden');
+        }
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        }
+
+        // Form Submission ke Google Sheets
+        document.getElementById('rsvpForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const form = e.target;
+            fetch(scriptURL, { 
+                method: 'POST', 
+                body: new FormData(form) 
+            })
+            .then(res => {
+                document.getElementById('statusMsg').classList.remove('hidden');
+                form.reset();
+            })
+            .catch(err => alert('Gagal mengirim data!'));
+        });
+    </script>
+</body>
+</html>
